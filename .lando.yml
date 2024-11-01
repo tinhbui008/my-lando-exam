@@ -1,4 +1,10 @@
+# name: nhm---website-vn
+# recipe: platformsh
+# config:
+#   id: fm6qvtdicai2a
+
+
 name: nhm---website-vn
-recipe: platformsh
+recipe: wordpress
 config:
-  id: fm6qvtdicai2a
+  webroot: web
