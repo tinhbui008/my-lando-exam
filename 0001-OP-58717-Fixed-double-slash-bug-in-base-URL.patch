@@ -1,0 +1,27 @@
+From fe081d9244131915fbcd2e5e1e5f2d72bb6e6f18 Mon Sep 17 00:00:00 2001
+From: Julien Didelet <julien.didelet@synova-solutions.com>
+Date: Sun, 27 Aug 2023 00:33:51 +0700
+Subject: [PATCH] OP#58717: Fixed double slash bug in base URL
+
+---
+ .environment | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.environment b/.environment
+index a6de09c..ed922c2 100644
+--- a/.environment
++++ b/.environment
+@@ -4,8 +4,8 @@ export DB_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".databa
+ export DB_USER=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].username")
+ export DB_PASSWORD=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].password")
+ 
+-export WP_HOME=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.primary == true) | .key')
+-export WP_SITEURL="${WP_HOME}wp"
++export WP_HOME=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.primary == true) | .key' | sed 's:/*$::')
++export WP_SITEURL="${WP_HOME}/wp"
+ export WP_DEBUG_LOG=/var/log/app.log
+ export WP_ENV="production"
+ # Uncomment this line if you would like development versions of WordPress on non-production environments.
+-- 
+2.34.1
+
